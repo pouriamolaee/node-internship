@@ -4,7 +4,7 @@ const coinController = require("../controllers/coin");
 /**
  * @swagger
  * /admin/createCoin:
- * post:
+ *  post:
  *      description: Use to create a coin
  *      responses:
  *       '201':
@@ -15,7 +15,7 @@ router.post("/createCoin", coinController.createCoin);
 /**
  * @swagger
  * /admin/updateCoin:
- * patch:
+ *  patch:
  *      description: Use to update a coin
  *      responses:
  *       '200':
@@ -26,7 +26,7 @@ router.patch("/updateCoin", coinController.updateCoin);
 /**
  * @swagger
  * /admin/deleteCoin:
- * delete:
+ *  delete:
  *      description: Use to delete a coin
  *      responses:
  *       '200':
