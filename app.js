@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const sequelize = require("./utils/database");
 const coinRoutes = require("./routes/coin");
 const adminRoutes = require("./routes/admin");
 
@@ -10,4 +11,7 @@ app.use(bodyParser.json());
 app.use(coinRoutes);
 app.use("/admin", adminRoutes);
 
-app.listen("8080");
+sequelize
+  .sync()
+  .then(() => app.listen("8080"))
+  .catch(console.log);
