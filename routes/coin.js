@@ -6,6 +6,7 @@ const coinController = require("../controllers/coin");
  * /coins:
  *  get:
  *      description: Use to fetch all coins
+ *      tags: [Coins]
  *      responses:
  *       '200':
  *          description: A successful response
@@ -14,15 +15,24 @@ router.get("/coins", coinController.getAllCoins);
 
 /**
  * @swagger
- * /coin/:coinId:
+ * /coin/{id}:
  *  get:
  *      description: Use to fetch a single coin
+ *      tags: [Coins]
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          schema:
+ *              type: integer
+ *          description: The coin id
+ *          example: 1
  *      responses:
  *       '200':
  *          description: A successful response
- *       '204':
+ *       '404':
  *          description: Resource not found
  */
-router.get("/coin/:coinId", coinController.getSingleCoin);
+router.get("/coin/:id", coinController.getSingleCoin);
 
 module.exports = router;
