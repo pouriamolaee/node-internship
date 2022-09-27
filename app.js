@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 const sequelize = require("./utils/database");
 const coinRoutes = require("./routes/coin");
 const adminRoutes = require("./routes/admin");
@@ -7,6 +9,28 @@ const adminRoutes = require("./routes/admin");
 const app = express();
 
 app.use(bodyParser.json());
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Node Internship",
+      description: "First touches of backend development",
+      contact: {
+        name: "Pouria",
+      },
+      servers: ["http://localhost:8080"],
+    },
+  },
+  apis: ["./routes/*.js"],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocs, { explorer: true })
+);
 
 app.use(coinRoutes);
 app.use("/admin", adminRoutes);
