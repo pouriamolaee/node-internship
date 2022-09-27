@@ -9,8 +9,8 @@ exports.getAllCoins = (req, res, next) => {
 };
 
 exports.getSingleCoin = (req, res, next) => {
-  const { coinId } = req.params;
-  Coin.findByPk(coinId)
+  const { id } = req.params;
+  Coin.findByPk(id)
     .then((coin) => {
       if (coin)
         res.status(200).json({ message: "Successfully retrieved", coin });
@@ -19,7 +19,6 @@ exports.getSingleCoin = (req, res, next) => {
     .catch(console.log);
 };
 
-// Test Sample: { "name": "Cardano", "symbol": "ADA", "price": 0.47 }
 exports.createCoin = (req, res, next) => {
   Coin.create(req.body)
     .then((newCoin) =>
@@ -29,19 +28,27 @@ exports.createCoin = (req, res, next) => {
 };
 
 exports.updateCoin = (req, res, next) => {
-  const { id: updatedCoinId, ...updatedCoin } = req.body;
-  Coin.update(updatedCoin, { where: { id: updatedCoinId } })
-    .then(() => res.status(200).json({ message: "Successfully updated" }))
+  const { id } = req.params;
+  Coin.update(req.body, { where: { id } })
+    .then((foundItemsNumberArr) => {
+      if (!foundItemsNumberArr[0])
+        return res.status(404).json({ message: "Resource not found" });
+      res.status(200).json({ message: "Successfully updated" });
+    })
     .catch(console.log);
 };
 
 exports.deleteCoin = (req, res, next) => {
-  const coinId = req.body.id;
+  const { id } = req.params;
   Coin.destroy({
     where: {
-      id: coinId,
+      id,
     },
   })
-    .then(() => res.status(200).json({ message: "Successfully deleted" }))
+    .then((foundItemsNumber) => {
+      if (!foundItemsNumber)
+        return res.status(404).json({ message: "Resource not found" });
+      res.status(200).json({ message: "Successfully deleted" });
+    })
     .catch(console.log);
 };
