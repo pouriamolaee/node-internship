@@ -44,7 +44,6 @@ const coinController = require("../controllers/coin");
 /**
  * @swagger
  * /admin/createCoin:
-      console.log(foundItemsNumberArr[0]);
  *  post:
  *      description: Use to create a coin
  *      tags: [Coins]
