@@ -3,12 +3,12 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const coinTasks = require("./tasks/coin");
 const isAuth = require("./middlewares/isAuth");
 const coinRoutes = require("./routes/coin");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const sequelize = require("./utils/database");
-
 
 const app = express();
 
@@ -55,6 +55,8 @@ app.use((req, res, next) => {
 
   next();
 });
+
+coinTasks.updateCoinsPrice();
 
 app.use(coinRoutes);
 app.use("/auth", authRoutes);
