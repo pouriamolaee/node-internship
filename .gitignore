@@ -67,7 +67,7 @@ typings/
 
 # Yarn Integrity file
 .yarn-integrity
-
+sqlite3
 # dotenv environment variables file
 .env
 .env.test
@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Db 
+*.sqlite
