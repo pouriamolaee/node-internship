@@ -18,9 +18,20 @@ exports.signUp = (req, res, next) => {
     .then((hashedPass) => {
       return User.create({ username, password: hashedPass });
     })
-    .then((newUser) =>
-      res.status(201).json({ message: "Successfully created", newUser })
-    )
+    .then(({ id, username }) => {
+      const { token, refreshToken } = authUtils.createTokens({
+        id,
+        username,
+      });
+
+      const serializedRefreshToken =
+        authUtils.serializeRefreshToken(refreshToken);
+
+      res
+        .setHeader("Set-Cookie", serializedRefreshToken)
+        .status(201)
+        .json({ message: "Successfully created", id, token });
+    })
     .catch(console.log);
 };
 
@@ -53,7 +64,7 @@ exports.signIn = (req, res, next) => {
       res
         .status(200)
         .setHeader("Set-Cookie", serializedRefreshToken)
-        .json({ message: "Successfully logged in", token, user: foundUser });
+        .json({ message: "Successfully logged in", id: foundUser.id, token });
     })
     .catch(console.log);
 };

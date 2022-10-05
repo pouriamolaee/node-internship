@@ -62,6 +62,8 @@ const coinController = require("../controllers/coin");
  *      responses:
  *       '201':
  *          description: Resource created successfully
+ *       '409':
+ *          description: This symbol of the coin already exists
  */
 router.post("/create-coin/", coinController.createCoin);
 

@@ -20,7 +20,16 @@ exports.getSingleCoin = (req, res, next) => {
 };
 
 exports.createCoin = (req, res, next) => {
-  Coin.create(req.body)
+  const addedCoin = req.body;
+
+  Coin.findOne({ where: { symbol: addedCoin.symbol } }).then((coin) => {
+    if (coin)
+      return res
+        .status(409)
+        .json({ message: "This symbol of the coin already exists" });
+  });
+
+  Coin.create(addedCoin)
     .then((newCoin) =>
       res.status(201).json({ message: "Successfully created", newCoin })
     )
