@@ -4,6 +4,10 @@ const coinController = require("../controllers/coin");
 /**
  * @swagger
  *  components:
+ *    securitySchemes:
+ *      BearerAuth:
+ *          type: http
+ *          scheme: bearer
  *    schemas:
  *      Coin:
  *        type: object
@@ -43,8 +47,10 @@ const coinController = require("../controllers/coin");
 
 /**
  * @swagger
- * /admin/createCoin:
+ * /admin/create-coin:
  *  post:
+ *      security:
+ *        - BearerAuth: []
  *      description: Use to create a coin
  *      tags: [Coins]
  *      requestBody:
@@ -57,12 +63,14 @@ const coinController = require("../controllers/coin");
  *       '201':
  *          description: Resource created successfully
  */
-router.post("/createCoin/", coinController.createCoin);
+router.post("/create-coin/", coinController.createCoin);
 
 /**
  * @swagger
- * /admin/updateCoin/{id}:
+ * /admin/update-coin/{id}:
  *  patch:
+ *      security:
+ *        - BearerAuth: []
  *      description: Use to update a coin
  *      tags: [Coins]
  *      parameters:
@@ -84,12 +92,14 @@ router.post("/createCoin/", coinController.createCoin);
  *       '404':
  *          description: Resource not found
  */
-router.patch("/updateCoin/:id", coinController.updateCoin);
+router.patch("/update-coin/:id", coinController.updateCoin);
 
 /**
  * @swagger
- * /admin/deleteCoin/{id}:
+ * /admin/delete-coin/{id}:
  *  delete:
+ *      security:
+ *        - BearerAuth: []
  *      description: Use to delete a coin
  *      tags: [Coins]
  *      parameters:
@@ -105,6 +115,6 @@ router.patch("/updateCoin/:id", coinController.updateCoin);
  *       '404':
  *          description: Resource not found
  */
-router.delete("/deleteCoin/:id", coinController.deleteCoin);
+router.delete("/delete-coin/:id", coinController.deleteCoin);
 
 module.exports = router;

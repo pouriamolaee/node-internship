@@ -1,13 +1,18 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-const sequelize = require("./utils/database");
+const isAuth = require("./middlewares/isAuth");
 const coinRoutes = require("./routes/coin");
+const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
+const sequelize = require("./utils/database");
+
 
 const app = express();
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 const swaggerOptions = {
@@ -20,6 +25,14 @@ const swaggerOptions = {
         name: "Pouria",
       },
       servers: ["http://localhost:8080"],
+      securityDefinitions: {
+        bearerAuth: {
+          type: "apiKey",
+          name: "Authorization",
+          scheme: "bearer",
+          in: "header",
+        },
+      },
     },
   },
   apis: ["./routes/*.js"],
@@ -32,8 +45,20 @@ app.use(
   swaggerUi.setup(swaggerDocs, { explorer: true })
 );
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, POST, PUT, PATCH,DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  next();
+});
+
 app.use(coinRoutes);
-app.use("/admin", adminRoutes);
+app.use("/auth", authRoutes);
+app.use("/admin", isAuth, adminRoutes);
 
 sequelize
   .sync()
