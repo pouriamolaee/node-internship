@@ -1,11 +1,10 @@
 const Coin = require("../models/coin");
 
 exports.getAllCoins = (req, res, next) => {
-  Coin.findAll()
-    .then((coins) =>
-      res.status(200).json({ message: "Successfully retrieved", coins })
-    )
-    .catch(console.log);
+  res.status(200).json({
+    message: "Successfully retrieved",
+    ...req.paginatedResult,
+  });
 };
 
 exports.getSingleCoin = (req, res, next) => {

@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const coinController = require("../controllers/coin");
+const paginatedResults = require("../middlewares/pagination");
+const Coin = require("../models/coin");
 
 /**
  * @swagger
@@ -7,11 +9,16 @@ const coinController = require("../controllers/coin");
  *  get:
  *      description: Use to fetch all coins
  *      tags: [Coins]
+ *      parameters:
+ *        - name: page
+ *          in: query
+ *        - name: limit
+ *          in: query
  *      responses:
  *       '200':
  *          description: A successful response
  */
-router.get("/coins", coinController.getAllCoins);
+router.get("/coins", paginatedResults(Coin), coinController.getAllCoins);
 
 /**
  * @swagger
