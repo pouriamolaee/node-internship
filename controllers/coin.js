@@ -7,6 +7,20 @@ exports.getAllCoins = (req, res, next) => {
   });
 };
 
+exports.getPriceStatus = (req, res, next) => {
+  Coin.findOne()
+    .then(({ priceUpdatedAt }) => {
+      const secondsFromLastUpdate =
+        (Date.now() - new Date(priceUpdatedAt).getTime()) / 1000;
+      const status = secondsFromLastUpdate <= 15 ? "fresh" : "stale";
+      res.status(200).json({
+        message: "Successfully retrieved status",
+        status,
+      });
+    })
+    .catch(console.log);
+};
+
 exports.getSingleCoin = (req, res, next) => {
   const { id } = req.params;
   Coin.findByPk(id)

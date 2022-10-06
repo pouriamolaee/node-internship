@@ -9,8 +9,10 @@ exports.updateCoinsPrice = () => {
       coins.forEach(async ({ symbol }) => {
         const { price } = (await coinAPIs.getPriceBySymbol(symbol)).data.data
           .quote.USD;
+        const priceUpdatedAt = new Date(Date.now());
+
         const foundItemsNumberArr = await Coin.update(
-          { price },
+          { price, priceUpdatedAt },
           { where: { symbol } }
         );
         if (!foundItemsNumberArr[0]) throw new Error("Resource not found");

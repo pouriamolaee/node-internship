@@ -21,6 +21,11 @@ const Coin = sequelize.define("coin", {
     type: Sequelize.DOUBLE,
     allowNull: false,
   },
+  priceUpdatedAt: {
+    type: Sequelize.DATE,
+    allowNull: true,
+    field: "price_updated_at",
+  },
 });
 
 module.exports = Coin;
