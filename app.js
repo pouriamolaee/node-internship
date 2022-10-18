@@ -1,4 +1,5 @@
 const express = require("express");
+const { Server } = require("socket.io");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -64,5 +65,12 @@ app.use("/admin", isAuth, adminRoutes);
 
 sequelize
   .sync()
-  .then(() => app.listen("8080"))
+  .then(() => {
+    const server = app.listen("8080");
+    const io = new Server(server);
+
+    io.on("connection", (socket) => {
+      console.log("a user connected");
+    });
+  })
   .catch(console.log);
