@@ -1,10 +1,23 @@
 const Coin = require("../models/coin");
 
 exports.getAllCoins = (req, res, next) => {
-  Coin.findAll()
-    .then((coins) =>
-      res.status(200).json({ message: "Successfully retrieved", coins })
-    )
+  res.status(200).json({
+    message: "Successfully retrieved",
+    ...req.paginatedResult,
+  });
+};
+
+exports.getPriceStatus = (req, res, next) => {
+  Coin.findOne()
+    .then(({ priceUpdatedAt }) => {
+      const secondsFromLastUpdate =
+        (Date.now() - new Date(priceUpdatedAt).getTime()) / 1000;
+      const status = secondsFromLastUpdate <= 30 ? "fresh" : "stale";
+      res.status(200).json({
+        message: "Successfully retrieved status",
+        status,
+      });
+    })
     .catch(console.log);
 };
 
