@@ -1,5 +1,4 @@
 const express = require("express");
-const { Server } = require("socket.io");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -67,10 +66,9 @@ sequelize
   .sync()
   .then(() => {
     const server = app.listen("8080");
-    const io = new Server(server);
-
+    const io = require("./clients/socket").init(server);
     io.on("connection", (socket) => {
-      console.log("a user connected");
+      console.log("Yay, you're connected!");
     });
   })
   .catch(console.log);
