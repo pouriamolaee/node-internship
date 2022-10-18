@@ -46,10 +46,9 @@ router.get("/coins/price-status", coinController.getPriceStatus);
  *              type: integer
  *          description: The coin id
  *          example: 1
- *      responses:getPriceStatus
+ *      responses:
  *       '200':
  *          description: A successful response
-      console.log(secondsFromLastUpdate);
  *       '404':
  *          description: Resource not found
  */
