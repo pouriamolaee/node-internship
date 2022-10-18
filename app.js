@@ -15,6 +15,17 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, POST, PUT, PATCH,DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  next();
+});
+
 const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
@@ -44,17 +55,6 @@ app.use(
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocs, { explorer: true })
 );
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH,DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  next();
-});
 
 coinTasks.updateCoinsPrice();
 

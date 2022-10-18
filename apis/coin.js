@@ -1,5 +1,9 @@
 const axios = require("axios");
 
+require("dotenv").config();
+
+console.log(typeof process.env.CMC_PRO_API_KEY);
+
 exports.getPriceBySymbol = (symbol) =>
   axios.get("https://pro-api.coinmarketcap.com/v1/tools/price-conversion", {
     params: {
@@ -7,6 +11,6 @@ exports.getPriceBySymbol = (symbol) =>
       amount: 1,
     },
     headers: {
-      "X-CMC_PRO_API_KEY": "45565e33-4d88-4cb4-8fb6-dca0a3caaabf",
+      "X-CMC_PRO_API_KEY": process.env.CMC_PRO_API_KEY,
     },
   });

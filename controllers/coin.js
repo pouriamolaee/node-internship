@@ -12,7 +12,7 @@ exports.getPriceStatus = (req, res, next) => {
     .then(({ priceUpdatedAt }) => {
       const secondsFromLastUpdate =
         (Date.now() - new Date(priceUpdatedAt).getTime()) / 1000;
-      const status = secondsFromLastUpdate <= 15 ? "fresh" : "stale";
+      const status = secondsFromLastUpdate <= 30 ? "fresh" : "stale";
       res.status(200).json({
         message: "Successfully retrieved status",
         status,
